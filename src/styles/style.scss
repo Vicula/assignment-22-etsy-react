@@ -7,8 +7,276 @@
 	box-sizing: border-box;
 }
 
-h1 {
-	font-size: 300px;
-	text-align: center;
-	color: fuchsia;
+// h1 {
+// 	font-size: 300px;
+// 	text-align: center;
+// 	color: fuchsia;
+// }
+
+body {
+	margin: auto;
+}
+
+
+#app-container {
+	.moreInfoBox{
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		z-index: 1000;
+		background: rgba(150,150,150,0.4);
+
+		.infoInnerBox{
+			position: relative;
+			margin: auto auto;
+			top: 150px;
+			background: #ddd;
+			height: 70%;
+			width: 60%;
+			overflow: hidden;
+			border: 5px #000 solid;
+
+			nav{
+				background: rgb(255,156,62);
+				border-bottom: 5px #ddd solid;
+
+				span{
+					position: relative;
+					left: 94%;
+					color: red;
+					font-size: 20px;
+					margin: 10px;
+					cursor: pointer;
+				}
+			}
+
+			.closerProductPic{
+				background: no-repeat center center;
+
+			}
+
+			.closerProductInfo{
+				position: absolute;
+				overflow-y: scroll;
+
+				background: linear-gradient(to right, rgba(200, 200, 200, 0.8)60%, rgba(255, 255, 255, 0));
+				color: #000;
+				height: 93%;
+				width: 35%;
+				padding: 20px;
+
+				p{
+					padding-right: 20px;
+					font-size: 12px;
+					background: linear-gradient(to right,rgba(175,175,175,0.4)60%, rgba(0,0,0,0));
+				}
+
+			}
+			// .add-background{
+			// 	className = add-background
+			//
+			// }
+		}
+	}
+
+	.productPagination{
+		width: 30%;
+
+		margin: auto;
+	}
+
+	.homePageFooter {
+		height: 75px;
+		border-top: 20px #ddd solid;
+		background: rgb(255,156,62);
+		margin-top: 50px;
+	}
+
+	.contentListingBox {
+		margin-left: 50px;
+	}
+
+	.contentNavBox {
+
+
+		width: 15%;
+		margin: 20px;
+		margin-left: 55px;
+		margin-right: 20px;
+		// padding: 10px;
+		// padding-left: 20px;
+
+		div {
+			background: #ddd;
+			color: #000;
+			padding: 20px;
+			margin: 20px 0;
+			margin-bottom: 25px;
+			h5 {
+				color: rgb(255,156,62);
+			}
+
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+
+				a{
+					color: #000;
+				}
+			}
+		}
+	}
+
+	.homePageTitle{
+		color: rgb(255,156,62);
+		font-size: 60px;
+		margin-left: 8%;
+		margin-bottom: 50px;
+	}
+
+	.homeInfoBlocksbox{
+		margin-bottom: 50px;
+		background: #DDD;
+		height: 225px;
+		text-align: center;
+		padding-top: 20px;
+
+		img {
+
+		}
+
+		h3 {
+			color: black;
+		}
+		p {
+			color: #777;
+		}
+
+	}
+	//
+	// .navIcons {
+	// 	display: inline-block;
+	// 	float: right;
+	// 	width: 20%;
+	//
+	// 	span{
+	// 		float: right;
+	// 		color: rgb(255,156,62);
+	// 		width: 20%;
+	// 		font-size: 25px;
+	// 		margin-top: 30px;
+	// 		padding: 0;
+	//
+	//
+	// 	}
+	// 	span:hover {
+	// 		 text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+	// 	}
+	// }
+	//
+	// .navLogo{
+	// 	margin: 10px auto;
+	// 	padding: 0;
+	// 	position: relative;
+	// 	width: 20%;
+	// 	left: -75px;
+	//
+	// }
+	.jumbotron {
+		margin-bottom: 0;
+		padding-left: 40px;
+	}
+
+	.jumboTitle {
+		width: 50%;
+		margin-left: 20px;
+	}
+
+	.jumboSearch {
+		width: 35%;
+		margin-left: 25px;
+	}
+	.jumboSearchBut {
+		background: rgb(255,156,62);
+
+	}
+
+	.crntProduct:hover {
+		border: 5px rgb(255,156,62) solid;
+	}
+
+	.crntProduct {
+		width: 20%;
+		height: 200px;
+		margin: 10px;
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		.crntProdInfo {
+			position: relative;
+			font-size: 10px;
+			top: 60%;
+			height: 20%;
+			color: #000;
+			background: #DDD;
+
+			h1{
+				font-size: 10px;
+				margin-bottom: 0;
+				margin-left: 5px;
+				padding-top: 5px;
+			}
+			p {
+				display: inline-block;
+				margin: 8px;
+				margin-bottom: 0;
+
+
+			}
+
+			.crntPrice {
+				float: right;
+				color: rgb(255,156,62);
+
+			}
+			.crntCreator {
+				float: left;
+				color: #999;
+
+			}
+		}
+	}
+	.navIcons {
+		display: inline-block;
+		float: right;
+		width: 20%;
+
+		img{
+			float: right;
+			color: rgb(255,156,62);
+			width: 13%;
+			font-size: 25px;
+			margin-top: 30px;
+			padding: 0;
+			margin-right: 15px;
+
+
+		}
+		img:hover {
+			 text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+			 border: 1px #fff solid;
+		}
+	}
+
+	.navLogo{
+		margin: 10px auto;
+		padding: 0;
+		position: relative;
+		width: 20%;
+		left: -75px;
+	}
+
 }
