@@ -7,6 +7,12 @@ var HomePage = React.createClass({
 
       let jumboTitleText = "Whoever you are, find whatever you're into"
 
+      console.log(this.props.data)
+
+      this.props.data.forEach(function(data){
+         console.log(data)
+      })
+
 
       return (
          <div>
@@ -109,3 +115,6 @@ var HomePage = React.createClass({
       )
    }
 })
+
+
+module.exports = HomePage
