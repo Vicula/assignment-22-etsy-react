@@ -4,7 +4,7 @@ const ReactDOM = require('react-dom')
 const $ = require('jquery')
 
 const view = require('./modl-col.js')
-const HomePage = require('./class-templates.js')
+const templates = require('./class-templates.js')
 
 var appHolder = document.querySelector('#app-container')
 
@@ -21,8 +21,10 @@ const appRouter = Backbone.Router.extend({
 
       var coll = new view.etsyCollection()
       coll.fetch().then(function(){
+
+         ReactDOM.render(<templates.HomePage data={coll.models}/>, appHolder)
          
-         ReactDOM.render(<HomePage data={coll.models}/>, document.querySelector('#app-container'))
+
       })
    },
 

@@ -1,45 +1,18 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
-var serverData =''
+
 
 var HomePage = React.createClass({
+
+
    render: function(){
 
       let jumboTitleText = "Whoever you are, find whatever you're into"
 
       let etsyData = this.props.data
 
-      serverData = etsyData
-      var productDOMs = ''
 
-
-//       etsyData.forEach(function(moreData){
-//          let productLink = 'closerLook/' + moreData.attributes.listing_id
-//          let divStyle = {
-//             backgroundImage: 'url('+ moreData.attributes.Images[0].url_170x135 +')'
-//          }
-//          let productName = moreData.attributes.title.slice(0, 25) + '...'
-//          let productCreator = moreData.attributes.Shop.shop_name
-//          let productPrice = moreData.attributes.price
-//          console.log(productDOMs)
-//
-//          productDOMs += (
-//             `<a href="${productLink}">
-//                <div className="col-sm-4 crntProduct" style=${divStyle}>
-//                   <div className="crntProdInfo">
-//                      <h1>${productName}</h1>
-//                      <p className="crntCreator">${productCreator}</p>
-//                      <p className="crntPrice">${productPrice}</p>
-//                   </div>
-//                </div>
-//             </a>
-// `
-//          )
-//
-//       })
-
-      console.log(serverData)
 
       return (
          <div>
@@ -114,8 +87,30 @@ var HomePage = React.createClass({
                   </div>
                </div>
                <div className="col-sm-9 contentListingBox">
-                  <div>
-                     {productDOMs}
+                  <div id="tileHolder">
+                     {etsyData.map(function(someData, i){
+                        console.log(someData)
+                        console.log(i)
+                        let productLink = 'closerLook/' + someData.attributes.listing_id
+                        let divStyle = {
+                            backgroundImage: 'url('+ someData.attributes.Images[0].url_170x135 +')'
+                        }
+                        let productName = someData.attributes.title.slice(0, 25) + '...'
+                        let productCreator = someData.attributes.Shop.shop_name
+                        let productPrice = someData.attributes.price
+                        return(
+                           <a href={productLink}>
+                              <div className="col-md-4 crntProduct" style={divStyle}>
+                                 <div className="crntProdInfo">
+                                    <h1>{productName}</h1>
+                                    <p className="crntCreator">{productCreator}</p>
+                                    <p className="crntPrice">{productPrice}</p>
+                                 </div>
+                              </div>
+                           </a>
+                        )
+
+                     })}
                   </div>
                   <nav className="productPagination">
                      <ul className="pagination">
@@ -145,5 +140,6 @@ var HomePage = React.createClass({
 
 
 
-
-module.exports = HomePage
+module.exports = {
+   HomePage: HomePage
+}
