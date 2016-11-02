@@ -4,7 +4,11 @@ const Backbone = require('Backbone')
 var etsyModel = Backbone.Model.extend({
    url: '',
 
-   
+   parse: function(rawJSON){
+      return rawJSON
+   },
+
+
 
    initialize: function(productId){
       this.url = "https://openapi.etsy.com/v2/listings/" + productId + ".js?callback=?&includes=Images,Shop&api_key=a4rxc0l54zj63ku2c0of02ic"

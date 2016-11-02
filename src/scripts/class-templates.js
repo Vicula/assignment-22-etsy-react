@@ -1,21 +1,85 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
+var theGlobalDecider = false
+
 
 
 var HomePage = React.createClass({
 
+   getInitialState: function(){
+      let startingState = {
+         popUpDisplay: theGlobalDecider
+      }
+
+      return startingState
+   },
+
+   _displayModal: function(lid){
+      console.log('heyo', lid)
+      console.log(this.state.popUpDisplay)
+
+      if(this.state.popUpDisplay === false){
+         this.setState({
+            popUpDisplay: true
+         })
+         theGlobalDecider = true
+      } else {
+         this.setState({
+            popUpDisplay: false
+         })
+         theGlobalDecider = false
+      }
+
+      window.location.hash = '#closerLook/' + lid
+
+
+   },
+
 
    render: function(){
+
 
       let jumboTitleText = "Whoever you are, find whatever you're into"
 
       let etsyData = this.props.data
 
+      let tileData = etsyData.map((someData, i)=>{
+         // console.log(someData)
+         // console.log(i)
+         var crntPic2 = ''
+
+         if (someData.attributes.Images[0].url_170x135 === undefined){
+            crntPic2 = 'https://robohash.org/travis/?set=set2'
+         } else {
+            crntPic2 = someData.attributes.Images[0].url_170x135
+         }
+
+         let divStyle = {
+             backgroundImage: 'url('+ crntPic2 +')'
+         }
+         let productName = someData.attributes.title.slice(0, 25) + '...'
+         let productCreator = someData.attributes.Shop.shop_name
+         let productPrice = "$"+someData.attributes.price
+         // console.log('???? this ?????', this)
+         return(
+            <a href='#' key={someData.cid} onClick={(evt)=>{ evt.preventDefault(); this._displayModal(someData.get('listing_id'));} }>
+               <div className="col-md-4 crntProduct" style={divStyle} >
+                  <div className="crntProdInfo">
+                     <h1>{productName}</h1>
+                     <p className="crntCreator">{productCreator}</p>
+                     <p className="crntPrice">{productPrice}</p>
+                  </div>
+               </div>
+            </a>
+         )
+
+      })
 
 
       return (
          <div>
+            <CloserPage serveStuff={etsyData} displayStatus={this.state.popUpDisplay}/>
             <nav>
                <img src="../images/etsy-logo.png" className="navLogo"/>
                <div className="navIcons">
@@ -62,8 +126,8 @@ var HomePage = React.createClass({
                   </div>
                </div>
             </div>
-            <h1 className="homePageTitle">Browse our selection..</h1>
-            <div className="container-fluid">
+            <div>
+               <h1 className="homePageTitle">Browse our selection..</h1>
                <div className="col-sm-3 contentNavBox">
                   <h4>Show results for :</h4>
                   <div>
@@ -95,32 +159,11 @@ var HomePage = React.createClass({
                      <input type="checkbox"/>$50 to $100<br/>
                      <input type="checkbox"/>Over $100<br/>
                   </div>
-               </div>
-               <div className="col-sm-9 contentListingBox">
-                  <div id="tileHolder">
-                     {etsyData.map(function(someData, i){
-                        console.log(someData)
-                        console.log(i)
-                        let productLink = '#closerLook/' + someData.attributes.listing_id
-                        let divStyle = {
-                            backgroundImage: 'url('+ someData.attributes.Images[0].url_170x135 +')'
-                        }
-                        let productName = someData.attributes.title.slice(0, 25) + '...'
-                        let productCreator = someData.attributes.Shop.shop_name
-                        let productPrice = "$"+someData.attributes.price
-                        return(
-                           <a href={productLink}>
-                              <div className="col-md-4 crntProduct" style={divStyle}>
-                                 <div className="crntProdInfo">
-                                    <h1>{productName}</h1>
-                                    <p className="crntCreator">{productCreator}</p>
-                                    <p className="crntPrice">{productPrice}</p>
-                                 </div>
-                              </div>
-                           </a>
-                        )
 
-                     })}
+               </div>
+               <div className="container contentListingBox">
+                  <div id="tileHolder">
+                     {tileData}
                   </div>
                   <nav className="productPagination">
                      <ul className="pagination">
@@ -150,36 +193,69 @@ var HomePage = React.createClass({
 })
 
 var CloserPage = React.createClass({
+
+   someFunction: function(){
+      
+
+   },
+
    render: function(){
-      let crntData = this.props.model.attributes.results[0]
-      console.log(crntData)
+      console.log(this.props)
+      let crntData = this.props.serveStuff
 
-      let prodPicStyle = {
-         backgroundImage: "url(" + crntData.Images[0].url_570xN + ")",
-         backgroundSize: "cover",
-         height: '65vh',
-         width: '100%'
-      }
 
-      return (
-         <div className="moreInfoBox">
-            <div className="infoInnerBox">
-               <nav>
-                  <span className="closerLookClose">X</span>
-               </nav>
-               <div>
-                  <div className="col-sm-7 closerProductPic" style={prodPicStyle}>
 
-                  </div>
-                  <div className="col-sm-5 closerProductInfo">
-                     <h3>{crntData.title}</h3>
-                     <h3>{'$' +crntData.price}</h3>
-                     <p>{crntData.description}</p>
+
+      if(this.props.displayStatus === false){
+         return (
+            <div></div>
+         )
+      }else {
+         let crntId = Number(window.location.hash.slice(12))
+
+         var selectedProductIndex = crntData.findIndex(function(mdls, i){
+            return mdls.get('listing_id') === crntId
+         })
+         let selectedProduct = crntData[selectedProductIndex].attributes
+         let crntPic = ''
+
+         if (selectedProduct.Images[0].url_570xN === undefined){
+            crntPic = 'https://robohash.org/travis/?set=set2'
+         } else {
+            crntPic = selectedProduct.Images[0].url_570xN
+         }
+
+         let prodPicStyle = {
+            backgroundImage: "url(" + crntPic + ")",
+            backgroundSize: "cover",
+            height: '65vh',
+            width: '100%'
+         }
+
+
+
+
+         return (
+            <div className="moreInfoBox">
+               <div className="infoInnerBox">
+                  <nav>
+                     <span className="closerLookClose" onClick={this.someFunction}>X</span>
+                  </nav>
+                  <div>
+                     <div className="col-sm-7 closerProductPic" style={prodPicStyle}>
+
+                     </div>
+                     <div className="col-sm-5 closerProductInfo">
+                        <h3>{selectedProduct.title}</h3>
+                        <h3>{'$' + selectedProduct.price}</h3>
+                        <p>{selectedProduct.description}</p>
+                     </div>
                   </div>
                </div>
             </div>
-         </div>
-      )
+         )
+      }
+
    }
 })
 
