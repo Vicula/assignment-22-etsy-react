@@ -1,18 +1,45 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
+var serverData =''
 
 var HomePage = React.createClass({
    render: function(){
 
       let jumboTitleText = "Whoever you are, find whatever you're into"
 
-      console.log(this.props.data)
+      let etsyData = this.props.data
 
-      this.props.data.forEach(function(data){
-         console.log(data)
-      })
+      serverData = etsyData
+      var productDOMs = ''
 
+
+//       etsyData.forEach(function(moreData){
+//          let productLink = 'closerLook/' + moreData.attributes.listing_id
+//          let divStyle = {
+//             backgroundImage: 'url('+ moreData.attributes.Images[0].url_170x135 +')'
+//          }
+//          let productName = moreData.attributes.title.slice(0, 25) + '...'
+//          let productCreator = moreData.attributes.Shop.shop_name
+//          let productPrice = moreData.attributes.price
+//          console.log(productDOMs)
+//
+//          productDOMs += (
+//             `<a href="${productLink}">
+//                <div className="col-sm-4 crntProduct" style=${divStyle}>
+//                   <div className="crntProdInfo">
+//                      <h1>${productName}</h1>
+//                      <p className="crntCreator">${productCreator}</p>
+//                      <p className="crntPrice">${productPrice}</p>
+//                   </div>
+//                </div>
+//             </a>
+// `
+//          )
+//
+//       })
+
+      console.log(serverData)
 
       return (
          <div>
@@ -88,7 +115,7 @@ var HomePage = React.createClass({
                </div>
                <div className="col-sm-9 contentListingBox">
                   <div>
-
+                     {productDOMs}
                   </div>
                   <nav className="productPagination">
                      <ul className="pagination">
@@ -115,6 +142,8 @@ var HomePage = React.createClass({
       )
    }
 })
+
+
 
 
 module.exports = HomePage

@@ -19,19 +19,11 @@ const appRouter = Backbone.Router.extend({
 
    showHomePage: function(){
 
-      if(appHolder.innerHTML === ''){
-               var coll = new view.etsyCollection()
-               coll.fetch()
-
-               
-
-               ReactDOM.render(<HomePage data={coll.models}/>, appHolder)
-
-
-            } else {
-
-            }
-
+      var coll = new view.etsyCollection()
+      coll.fetch().then(function(){
+         
+         ReactDOM.render(<HomePage data={coll.models}/>, document.querySelector('#app-container'))
+      })
    },
 
    initialize: function(){
