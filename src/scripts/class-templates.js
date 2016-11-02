@@ -23,6 +23,16 @@ var HomePage = React.createClass({
                   <img src="../images/Appointment Reminders-48.png"/>
                   <img src="../images/Shopping Cart-48.png"/>
                </div>
+               <ol className="navCats">
+                  <li>Clothing & Accessories</li>
+                  <li>Jewelry</li>
+                  <li>Craft Supplies & Tools</li>
+                  <li>Weddings</li>
+                  <li>Entertainment</li>
+                  <li>Home & Living</li>
+                  <li>Kids & Baby</li>
+                  <li>Vintage</li>
+               </ol>
             </nav>
             <div>
                <div className="jumbotron">
@@ -91,13 +101,13 @@ var HomePage = React.createClass({
                      {etsyData.map(function(someData, i){
                         console.log(someData)
                         console.log(i)
-                        let productLink = 'closerLook/' + someData.attributes.listing_id
+                        let productLink = '#closerLook/' + someData.attributes.listing_id
                         let divStyle = {
                             backgroundImage: 'url('+ someData.attributes.Images[0].url_170x135 +')'
                         }
                         let productName = someData.attributes.title.slice(0, 25) + '...'
                         let productCreator = someData.attributes.Shop.shop_name
-                        let productPrice = someData.attributes.price
+                        let productPrice = "$"+someData.attributes.price
                         return(
                            <a href={productLink}>
                               <div className="col-md-4 crntProduct" style={divStyle}>
@@ -133,6 +143,41 @@ var HomePage = React.createClass({
                   </nav>
                </div>
             </div>
+            <div className="container-fluid homePageFooter"></div>
+         </div>
+      )
+   }
+})
+
+var CloserPage = React.createClass({
+   render: function(){
+      let crntData = this.props.model.attributes.results[0]
+      console.log(crntData)
+
+      let prodPicStyle = {
+         backgroundImage: "url(" + crntData.Images[0].url_570xN + ")",
+         backgroundSize: "cover",
+         height: '65vh',
+         width: '100%'
+      }
+
+      return (
+         <div className="moreInfoBox">
+            <div className="infoInnerBox">
+               <nav>
+                  <span className="closerLookClose">X</span>
+               </nav>
+               <div>
+                  <div className="col-sm-7 closerProductPic" style={prodPicStyle}>
+
+                  </div>
+                  <div className="col-sm-5 closerProductInfo">
+                     <h3>{crntData.title}</h3>
+                     <h3>{'$' +crntData.price}</h3>
+                     <p>{crntData.description}</p>
+                  </div>
+               </div>
+            </div>
          </div>
       )
    }
@@ -141,5 +186,6 @@ var HomePage = React.createClass({
 
 
 module.exports = {
-   HomePage: HomePage
+   HomePage: HomePage,
+   CloserPage: CloserPage
 }

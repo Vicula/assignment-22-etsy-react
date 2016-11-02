@@ -19,6 +19,25 @@ body {
 
 
 #app-container {
+	.navCats {
+		list-style: none;
+		border-top: 2px #333 solid;
+		width: 100%;
+		padding-left: 30px;
+
+		li {
+			text-align: center;
+			display: inline-block;
+			margin: 0 20px;
+			margin-top: 10px;
+			color: rgb(255,156,62);
+			font-size: 15px;
+		}
+
+		li:hover {
+			border-bottom: 2px #fff solid;
+		}
+	}
 	.moreInfoBox{
 		position: fixed;
 		top: 0;
@@ -36,18 +55,20 @@ body {
 			height: 70%;
 			width: 60%;
 			overflow: hidden;
-			border: 5px #000 solid;
+			// border: 5px #000 solid;
 
 			nav{
+				height: 40px;
 				background: rgb(255,156,62);
 				border-bottom: 5px #ddd solid;
 
 				span{
 					position: relative;
-					left: 94%;
+					left: 96%;
 					color: red;
 					font-size: 20px;
 					margin: 10px;
+					margin-top: 25px;
 					cursor: pointer;
 				}
 			}

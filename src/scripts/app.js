@@ -13,8 +13,17 @@ const appRouter = Backbone.Router.extend({
 
    routes: {
       "moreInfo/:id" : "showMorePage",
-      "closerLook:id" : "showCloserLook",
+      "closerLook/:id" : "showCloserLook",
       "" : "showHomePage"
+   },
+
+   showCloserLook: function(id){
+
+      var modl = new view.etsyModel(id)
+      modl.fetch().then(function(){
+         console.log(modl)
+         ReactDOM.render(<templates.CloserPage model={modl}/>, appHolder)
+      })
    },
 
    showHomePage: function(){
@@ -23,7 +32,7 @@ const appRouter = Backbone.Router.extend({
       coll.fetch().then(function(){
 
          ReactDOM.render(<templates.HomePage data={coll.models}/>, appHolder)
-         
+
 
       })
    },
