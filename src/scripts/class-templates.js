@@ -1,16 +1,23 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
-
-var theGlobalDecider = false
-
+const Backbone = require('backbone')
 
 
-var HomePage = React.createClass({
+var cartTotal = ''
+
+
+let productModel = Backbone.Model.extend({})
+
+var myShoppingCart = []
+
+const HomePage = React.createClass({
 
    getInitialState: function(){
       let startingState = {
-         popUpDisplay: theGlobalDecider,
-         searchValue: ''
+         popUpDisplay: false,
+         cartDropDisplay: false,
+         searchValue: '',
+         shoppingCart: myShoppingCart
       }
 
       return startingState
@@ -18,7 +25,25 @@ var HomePage = React.createClass({
 
    searchFunction: function(evt){
 
+      console.log(evt)
+
       console.log(this.state.searchValue)
+   },
+
+   showMeMyCart: function(evt){
+      console.log(this.state.shoppingCart)
+      // console.log(cartTotal)
+      if(this.state.cartDropDisplay === false){
+         this.setState({
+            cartDropDisplay: true
+         })
+         console.log('open')
+      } else {
+         this.setState({
+            cartDropDisplay: false
+         })
+         console.log('close')
+      }
    },
 
    searchInputChange: function(event){
@@ -36,12 +61,12 @@ var HomePage = React.createClass({
          this.setState({
             popUpDisplay: true
          })
-         theGlobalDecider = true
+
       } else {
          this.setState({
             popUpDisplay: false
          })
-         theGlobalDecider = false
+
       }
 
       window.location.hash = '#closerLook/' + lid
@@ -61,6 +86,7 @@ var HomePage = React.createClass({
          // console.log(someData)
          // console.log(i)
          var crntPic2 = ''
+
 
          if (someData.attributes.Images[0].url_170x135 === undefined){
             crntPic2 = 'https://robohash.org/travis/?set=set2'
@@ -92,13 +118,15 @@ var HomePage = React.createClass({
 
       return (
          <div>
-            <CloserPage serveStuff={etsyData} displayStatus={this.state.popUpDisplay} someNewNew={this}/>
+            <CloserPage serveStuff={etsyData} displayStatus={this.state.popUpDisplay} myCart={this.state.shoppingCart} someNewNew={this}/>
             <nav>
                <img src="../images/etsy-logo.png" className="navLogo"/>
                <div className="navIcons">
                   <img src="../images/Home-48.png"/>
                   <img src="../images/Appointment Reminders-48.png"/>
-                  <img src="../images/Shopping Cart-48.png"/>
+                  <img src="../images/Shopping Cart-48.png" onClick={this.showMeMyCart}/>
+                  <span className="badge cartNumber">{cartTotal}</span>
+                  <CartDropDown displayState={this.state.cartDropDisplay} theCart={this.state.shoppingCart}/>
                </div>
                <ol className="navCats">
                   <li>Clothing & Accessories</li>
@@ -205,17 +233,62 @@ var HomePage = React.createClass({
    }
 })
 
-var CloserPage = React.createClass({
+const CloserPage = React.createClass({
+
+   getInitialState : function() {
+    return {
+      crntShoppingCart: []
+    }
+  },
 
    someFunction: function(){
-      theGlobalDecider = false
+      let crntPagePosition = document.body.scrollTop
+
+      window.location.hash = ''
+
+      document.body.scrollTop = crntPagePosition
       this.props.someNewNew.setState({
          popUpDisplay: false
       })
 
+      // console.log(this.props.someNewNew.popUpDisplay)
+
    },
 
    addToCart: function(){
+      console.log(this.props.myCart)
+      // console.log(this.props.serveStuff)
+
+
+      let thisData = this.props.serveStuff
+      //
+      var thisId = Number(window.location.hash.slice(12))
+      //
+      // let myCrntCart = this.props.myCart
+      //
+      // let newCrntCart = myCrntCart + '/' +thisId
+
+
+      var thisProductIndex = thisData.findIndex(function(mdls, i){
+         return mdls.get('listing_id') === thisId
+      })
+      let thisProduct = thisData[thisProductIndex].attributes
+
+      let packagedProduct = new productModel()
+
+      packagedProduct.set(thisProduct)
+
+      let theNewCart = this.props.myCart
+      theNewCart.push(packagedProduct.attributes)
+
+
+      this.props.someNewNew.setState({
+         shoppingCart: theNewCart
+      })
+
+      cartTotal = this.props.myCart.length
+
+
 
    },
 
@@ -237,12 +310,13 @@ var CloserPage = React.createClass({
             return mdls.get('listing_id') === crntId
          })
          let selectedProduct = crntData[selectedProductIndex].attributes
+
          let crntPic = ''
 
          if (selectedProduct.Images[0].url_570xN === undefined){
             crntPic = 'https://robohash.org/travis/?set=set2'
          } else {
-            crntPic = selectedProduct.Images[0].url_570xN
+            crntPic = selectedProduct.Images[0].url_fullxfull
          }
 
          let prodPicStyle = {
@@ -279,6 +353,45 @@ var CloserPage = React.createClass({
 
    }
 })
+
+const CartDropDown = React.createClass({
+
+   // <span className="badge">{cartTotal}</span>
+
+   render: function(){
+      console.log(this.props.displayState)
+      console.log(this.props.theCart)
+
+      if(this.props.displayState === false){
+         return(
+            <div></div>
+         )
+      } else {
+         return(
+            <div className="cartBoxHolder">
+               <div className="cartBoxNav">
+                  <h4>Your cart..</h4>
+                  <button className="btn btn-warning">Checkout</button>
+               </div>
+               <div className="cartBoxContent">
+                  <h3>Your cart is empty...</h3>
+
+               </div>
+            </div>
+         )
+      }
+
+
+   }
+})
+// 
+// const FillYourCart = React.createClass({
+//
+//    return (
+//       <div></div>
+//    )
+//
+// })
 
 
 

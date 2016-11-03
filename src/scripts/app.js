@@ -23,18 +23,21 @@ const appRouter = Backbone.Router.extend({
       // modl.fetch().then(function(){
       //    console.log(modl)
          console.log(id)
-         
+
 
          // ReactDOM.render(<templates.CloserPage model={modl}/>, appHolder)
       // })
    },
 
    showHomePage: function(){
+      
 
       var coll = new view.etsyCollection()
       coll.fetch().then(function(){
 
          ReactDOM.render(<templates.HomePage data={coll.models}/>, appHolder)
+
+
 
 
       })
