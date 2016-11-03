@@ -23,6 +23,7 @@ const appRouter = Backbone.Router.extend({
       // modl.fetch().then(function(){
       //    console.log(modl)
          console.log(id)
+         
 
          // ReactDOM.render(<templates.CloserPage model={modl}/>, appHolder)
       // })

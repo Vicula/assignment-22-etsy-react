@@ -9,10 +9,23 @@ var HomePage = React.createClass({
 
    getInitialState: function(){
       let startingState = {
-         popUpDisplay: theGlobalDecider
+         popUpDisplay: theGlobalDecider,
+         searchValue: ''
       }
 
       return startingState
+   },
+
+   searchFunction: function(evt){
+
+      console.log(this.state.searchValue)
+   },
+
+   searchInputChange: function(event){
+      this.setState({
+         searchValue: event.target.value
+      })
+
    },
 
    _displayModal: function(lid){
@@ -79,7 +92,7 @@ var HomePage = React.createClass({
 
       return (
          <div>
-            <CloserPage serveStuff={etsyData} displayStatus={this.state.popUpDisplay}/>
+            <CloserPage serveStuff={etsyData} displayStatus={this.state.popUpDisplay} someNewNew={this}/>
             <nav>
                <img src="../images/etsy-logo.png" className="navLogo"/>
                <div className="navIcons">
@@ -102,9 +115,9 @@ var HomePage = React.createClass({
                <div className="jumbotron">
                   <h1 className="jumboTitle">{jumboTitleText}</h1>
                   <div className="input-group jumboSearch">
-                     <input type="text" className="form-control jumboSearchBar"/>
+                     <input type="text" value={this.state.searchValue} onChange={this.searchInputChange} className="form-control jumboSearchBar"/>
                      <div className="input-group-btn">
-                        <button type="button" className="btn default jumboSearchBut">Search</button>
+                        <button type="button" className="btn default jumboSearchBut" onClick={this.searchFunction}>Search</button>
                      </div>
                   </div>
                </div>
@@ -195,12 +208,19 @@ var HomePage = React.createClass({
 var CloserPage = React.createClass({
 
    someFunction: function(){
-      
+      theGlobalDecider = false
+      this.props.someNewNew.setState({
+         popUpDisplay: false
+      })
+
+   },
+
+   addToCart: function(){
 
    },
 
    render: function(){
-      console.log(this.props)
+      // console.log(this.props)
       let crntData = this.props.serveStuff
 
 
@@ -239,7 +259,8 @@ var CloserPage = React.createClass({
             <div className="moreInfoBox">
                <div className="infoInnerBox">
                   <nav>
-                     <span className="closerLookClose" onClick={this.someFunction}>X</span>
+                     <span className="closerLookAdd" onClick={this.addToCart}>+</span>
+                     <span className="closerLookClose" onClick={this.someFunction}>x</span>
                   </nav>
                   <div>
                      <div className="col-sm-7 closerProductPic" style={prodPicStyle}>
