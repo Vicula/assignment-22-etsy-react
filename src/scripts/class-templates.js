@@ -359,7 +359,7 @@ const CartDropDown = React.createClass({
    // <span className="badge">{cartTotal}</span>
 
    render: function(){
-      console.log(this.props.displayState)
+      // console.log(this.props.displayState)
       console.log(this.props.theCart)
 
       if(this.props.displayState === false){
@@ -374,8 +374,7 @@ const CartDropDown = React.createClass({
                   <button className="btn btn-warning">Checkout</button>
                </div>
                <div className="cartBoxContent">
-                  <h3>Your cart is empty...</h3>
-
+                  <FillYourCart crntCart={this.props.theCart}/>
                </div>
             </div>
          )
@@ -384,14 +383,52 @@ const CartDropDown = React.createClass({
 
    }
 })
-// 
-// const FillYourCart = React.createClass({
-//
-//    return (
-//       <div></div>
-//    )
-//
-// })
+
+const FillYourCart = React.createClass({
+
+   render: function(){
+
+
+
+      console.log(this.props.crntCart)
+      if(this.props.crntCart.length === 0){
+         return (
+            <div>
+               <h3>Your cart is empty...</h3>
+            </div>
+         )
+      } else {
+         let cartData = this.props.crntCart.map((crntPrdct, i)=>{
+            console.log(crntPrdct)
+
+            let thisPic = crntPrdct.Images[0].url_75x75
+
+
+            return(
+               <div>
+                  <div>
+                     <img src={thisPic}/>
+                  </div>
+                  <div>
+                     <h3>{crntPrdct.price}</h3>
+                  </div>
+                  <div>
+                     <span>X</span>
+                  </div>
+               </div>
+            )
+         })
+
+         return (
+            <div className='cartDataHolder'>
+               {cartData}
+            </div>
+         )
+      }
+
+   }
+
+})
 
 
 
